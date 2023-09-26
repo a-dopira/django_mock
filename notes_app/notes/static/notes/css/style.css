@@ -1,0 +1,26 @@
+h1 {
+  background-color: #4ac1f7;
+  font-size: 2em;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: blue;
+}
+
+a:hover {
+  color: #4ac1f7;
+  text-decoration: underline;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  margin-right: 10px;
+}
