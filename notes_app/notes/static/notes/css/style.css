@@ -1,3 +1,13 @@
+body {
+  background-color: #c7bebe;
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 60%;
+  background-color: white
+}
+
 h1 {
   background-color: #4ac1f7;
   font-size: 2em;

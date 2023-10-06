@@ -1,17 +1,24 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ title }}</title>
-  <link type="text/css" href="{% static 'notes/css/style.css' %}" rel="stylesheet">
-</head>
-<body>
-  <h1>Сторінка з нотатками</h1>
-  <ul>
-    <li><a href="#">Нотатка 1</a></li>
-    <li><a href="#">Нотатка 2</a></li>
-    <li><a href="#">Нотатка 3</a></li>
-  </ul>
-</body>
-</html>
+{% extends 'notes/base.html' %}
+{% block content %}
+<table style="width:100%; text-align:center; border-collapse: collapse;">
+    <tr>
+        <th style="background-color: #006b1b; font-size: 50px;">Категорія</th>
+        <th style="background-color: #006b1b; font-size: 50px;">Нотатки</th>
+    </tr>
+    {% for category in categories %}
+    <tr>
+        <td style="background-color: red; font-size: 35px">
+            {{ category.title }}
+        </td>
+        <td>
+            <ul>
+                {% for note in category.notes.all %}
+                    <li>{{ note.title }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<button><a href="{% url 'note_create' %}">Add a new note</a></button>
+{% endblock %}

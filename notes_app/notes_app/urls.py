@@ -17,9 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from notes.views import simple_view
+from notes.views import Categories, note_create
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', simple_view, name='simple_view')
+    path('', Categories.as_view(), name='home'),
+    path('create/', note_create, name='note_create')
 ]
