@@ -5,9 +5,14 @@
   <meta charset="UTF-8">
   <title>{{ title }}</title>
   <link type="text/css" href="{% static 'notes/css/style.css' %}" rel="stylesheet">
+    <link rel="icon" href="{% static 'notes/icons/icons8-note-16.png' %}">
 </head>
 <body>
   <div class="wrapper">
+    <form method="get" class="form_search" action="/search/">
+        <input style="width: 50px" name="note_search" type="text" placeholder="Search..."/>
+        <button>Шукати</button>
+    </form>
     {% block content %}
     {% endblock %}
   </div>

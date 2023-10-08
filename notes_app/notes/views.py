@@ -1,8 +1,9 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 
 from .forms import NoteForm
-from .models import Category
+from .models import Category, Note
 
 
 class CategoriesList(ListView):
@@ -25,12 +26,29 @@ class Categories(ListView):
     template_name = 'notes/categories.html'
 
     def get_queryset(self):
-        categories = Category.objects.all()
-        return categories
+        return Category.objects.all()
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Головна сторінка'
+        return context
+
+
+class FormSearch(ListView):
+    model = Note
+    template_name = 'notes/search_result.html'
+    context_object_name = 'notes'
+
+    def get_queryset(self):
+        query = self.request.GET.get('note_search', '')
+        notes = Note.objects.filter(Q(title__icontains=query) | Q(text__icontains=query))
+        return notes
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query = self.request.GET.get('note_search', '')
+        context['title'] = f"Результати пошуку '{query}'"
+        context['query'] = query
         return context
 
 
