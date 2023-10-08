@@ -1,9 +1,16 @@
 {% extends 'notes/base.html' %}
-<div>
-
-</div>
-<div>
-    <div>
-
+{% block content %}
+<div class="content">
+    <div class="content_cats"></div>
+    <div class="content_main">
+        <div class="content_main__title"><b>Обери категорію</b></div>
+        {% for category in categories %}
+            <div>
+                <a href="{{ category.get_absolute_url }}">
+                    {{ category.title }}
+                </a>
+            </div>
+        {% endfor %}
     </div>
 </div>
+{% endblock %}

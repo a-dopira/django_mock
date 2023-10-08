@@ -1,24 +1,25 @@
 {% extends 'notes/base.html' %}
 {% block content %}
-<table style="width:100%; text-align:center; border-collapse: collapse;">
-    <tr>
-        <th style="background-color: #006b1b; font-size: 50px;">Категорія</th>
-        <th style="background-color: #006b1b; font-size: 50px;">Нотатки</th>
-    </tr>
-    {% for category in categories %}
-    <tr>
-        <td style="background-color: red; font-size: 35px">
-            {{ category.title }}
-        </td>
-        <td>
-            <ul>
-                {% for note in category.notes.all %}
-                    <li>{{ note.title }}</li>
-                {% endfor %}
-            </ul>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-<button><a href="{% url 'note_create' %}">Add a new note</a></button>
+{% for note in category.notes.all %}
+    <div class="content">
+        <div class="content_notes"></div>
+        <div class="content_main">
+            <div>
+                <b>Категорія:</b>{{ category.title }}
+            </div>
+            <div>
+                <b>Назва:</b>{{ note.title }}
+            </div>
+            <div>
+                <b>Зміст:</b>{{ note.text }}
+            </div>
+            <div>
+                <b>Дедлайн:</b>{{ note.reminder|date:"d.m.Y H:i" }}
+            </div>
+        </div>
+    </div>
+{% endfor %}
+<button>
+    <a href="{% url 'note_create' %}">Add a new note</a>
+</button>
 {% endblock %}
