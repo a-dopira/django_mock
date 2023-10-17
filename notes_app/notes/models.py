@@ -13,5 +13,8 @@ class Category(models.Model):
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     notes = models.ManyToManyField(Note, related_name='categories')
 
+    def __str__(self):
+        return self.title
+
     def get_absolute_url(self):
         return reverse('categories_list', kwargs={'category_slug': self.slug})

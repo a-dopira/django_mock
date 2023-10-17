@@ -10,9 +10,11 @@
 <body>
   <div class="wrapper">
     <form method="get" class="form_search" action="/search/">
-        <input style="width: 50px" name="note_search" type="text" placeholder="Search..."/>
+        {% csrf_token %}
+        <input style="width: 50px" name="note_search" type="text" placeholder="Пошук..."/>
         <button>Шукати</button>
     </form>
+
     {% block content %}
     {% endblock %}
   </div>

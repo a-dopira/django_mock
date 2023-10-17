@@ -1,22 +1,24 @@
 from django.db.models import Q
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DeleteView, UpdateView, CreateView
 
-from .forms import NoteForm
+from .forms import CategoryFilterForm
 from .models import Category, Note
+from .utils import DataMixin
 
 
 class CategoriesList(ListView):
+    model = Note
     template_name = 'notes/notes.html'
-    model = Category
-    context_object_name = 'category'
+    context_object_name = 'notes'
 
     def get_queryset(self):
-        return get_object_or_404(Category, slug=self.kwargs.get('category_slug'))
+        return Note.objects.filter(categories__slug=self.kwargs['category_slug']).prefetch_related('categories')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = self.get_queryset().title + ' | Нотатки'
+        context['title'] = Category.objects.get(slug=self.kwargs['category_slug']).title + ' | Нотатки'
         return context
 
 
@@ -36,7 +38,7 @@ class Categories(ListView):
 
 class FormSearch(ListView):
     model = Note
-    template_name = 'notes/search_result.html'
+    template_name = 'notes/notes.html'
     context_object_name = 'notes'
 
     def get_queryset(self):
@@ -52,17 +54,40 @@ class FormSearch(ListView):
         return context
 
 
-def note_create(request):
-    if request.method == 'POST':
-        form = NoteForm(request.POST)
-        if form.is_valid():
-            note = form.save()
-            return redirect('simple_view')
-    else:
-        form = NoteForm()
+class NoteDeletion(DeleteView):
+    model = Note
+    template_name = 'notes/deletion.html'
+    success_url = reverse_lazy('home')
 
-    context = {
-        'form': form,
-    }
 
-    return render(request, 'notes/note_create.html', context)
+class NoteUpdateView(DataMixin, UpdateView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = {
+            'title': 'Редагування нотатки',
+            'header': 'Оновлення нотатки',
+            'confirmation': 'Зберегти зміни'
+        }
+        return context | c_def
+
+
+class NoteCreateView(DataMixin, CreateView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = {
+            'title': 'Створення нотатки',
+            'header': 'Створення нотатки',
+            'confirmation': 'Створити',
+        }
+        return context | c_def
+
+
+def note_filter(request):
+    form = CategoryFilterForm(request.GET)
+    notes = Note.objects.all()
+
+    if form.is_valid() and form.cleaned_data['category']:
+        category_id = form.cleaned_data['category']
+        notes = notes.filter(categories__id=category_id)
+
+    return render(request, 'notes/notes.html', {'form': form, 'notes': notes})
