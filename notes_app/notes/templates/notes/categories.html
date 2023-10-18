@@ -1,16 +1,37 @@
 {% extends 'notes/base.html' %}
 {% block content %}
-<div class="content">
-    <div class="content_cats"></div>
-    <div class="content_main">
-        <div class="content_main__title"><b>Обери категорію</b></div>
+<!--<div class="content">-->
+<!--    <div class="content_cats"></div>-->
+<!--    <div class="content_main">-->
+<!--        <div class="content_main__title"><b>Обери категорію</b></div>-->
+<!--        {% for category in categories %}-->
+<!--            <div>-->
+<!--                <a href="{{ category.get_absolute_url }}">-->
+<!--                    {{ category.title }}-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="card text-center" style="margin-top: 20px">
+    <div class="card-header">
+    Категорії
+    </div>
+    <div class="card-body">
+    <h5 class="card-title">Обери категорію</h5>
+      <ul>
         {% for category in categories %}
-            <div>
-                <a href="{{ category.get_absolute_url }}">
+            <li style="list-style: none">
+                <a href="{{ category.get_absolute_url }}" class="card-text">
                     {{ category.title }}
                 </a>
-            </div>
+            </li>
         {% endfor %}
+      </ul>
+    </div>
+    <div class="card-footer text-muted">
+        Антон Д. (2023)
     </div>
 </div>
 {% endblock %}

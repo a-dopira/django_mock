@@ -1,15 +1,31 @@
 {% extends 'notes/base.html' %}
 {% block content %}
-<div class="content">
-    <div class="content_notes"></div>
-    <div class="content_main">
-        <h2>Підтверження видалення</h2>
-        <p>Впевнений що хочеш видалити нотатку?</p>
-        <form method="post">
+<!--<div class="content">-->
+<!--    <div class="content_notes"></div>-->
+<!--    <div class="content_main">-->
+<!--        <h2>Підтверження видалення</h2>-->
+<!--        <p>Впевнений що хочеш видалити нотатку?</p>-->
+<!--        <form method="post">-->
+<!--            {% csrf_token %}-->
+<!--            <input type="submit" class="btn btn-danger" value="Видалити">-->
+<!--            <a href="{% url 'home' %}" class="btn btn-secondary">Скасувати</a>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+<div class="card text-center" style="margin-top: 20px">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Підтверження видалення</h5>
+            <p class="card-text">Впевнений що хочеш видалити нотатку?</p>
+<!--            <a href="{% url 'home' %}" class="btn btn-primary">На головну</a>-->
+            <form method="post">
             {% csrf_token %}
             <input type="submit" class="btn btn-danger" value="Видалити">
             <a href="{% url 'home' %}" class="btn btn-secondary">Скасувати</a>
         </form>
+        </div>
+        <div class="card-footer text-muted">
+        </div>
     </div>
-</div>
 {% endblock %}

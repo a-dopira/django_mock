@@ -2,24 +2,6 @@ body {
   background-color: #c7bebe;
 }
 
-@media (min-width: 768px) {
-  a:link {
-    text-decoration: none;
-  }
-
-  a:visited {
-    color: black;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  a:active {
-    background-color: lightgray;
-  }
-}
-
 
 .wrapper {
   margin: 50px auto;

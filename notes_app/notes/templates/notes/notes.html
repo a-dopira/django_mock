@@ -1,9 +1,9 @@
 {% extends 'notes/base.html' %}
 {% block content %}
-    <form method="get" action="{% url 'note_filter' %}">
-  {{ form.category.label_tag }}
-  {{ form.category }}
-  <input type="submit" value="Відфільтрувати">
+<form method="get" action="{% url 'note_filter' %}">
+    {{ form.category.label_tag }}
+    {{ form.category }}
+    <button class="btn btn-primary">Відфільтрувати</button>
 </form>
 {% if query %}
 <div>
@@ -12,45 +12,35 @@
 {% endif %}
 {% if notes %}
     {% for note in notes %}
-        <div class="content">
-            <div class="content_notes"></div>
-            <div class="content_main">
-                <div>
-                    <b>Категорія: </b>{{ note.categories.first.title }}
-                </div>
-                <div>
-                    <b>Назва: </b>{{ note.title }}
-                </div>
-                <div>
-                    <b>Зміст: </b>{{ note.text }}
-                </div>
-                <div>
-                    <b>Дедлайн: </b>{{ note.reminder|date:"d.m.Y H:i" }}
-                </div>
-                <div>
-                    <button>
-                        <a href="{% url 'note_deletion' note.pk %}">Видалити</a>
-                    </button>
-                </div>
-                <div>
-                    <button>
-                        <a href="{% url 'note_edition' note.pk %}">Редагувати</a>
-                    </button>
-                </div>
-            </div>
+    <div class="card text-center" style="margin-top: 20px">
+        <div class="card-header">
+            {{ note.categories.first.title }}
         </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ note.title }}</h5>
+            <p class="card-text">{{ note.text }}</p>
+            <a href="{% url 'note_edition' note.pk %}" class="btn btn-primary">Редагувати</a>
+            <a href="{% url 'note_deletion' note.pk %}" class="btn btn-primary">Видалити</a>
+        </div>
+        <div class="card-footer text-muted">
+            {{ note.reminder|date:"d.m.Y H:i" }}
+        </div>
+    </div>
     {% endfor %}
 {% else %}
-    <div class="content">
-        <div class="content_notes"></div>
-        <div class="content_main">
-            <div style="padding: 20px 0">
-                <b>Пошук не дав результатів... Спробуй щось інше</b>
-            </div>
+    <div class="card text-center" style="margin-top: 20px">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Сталася помилка...</h5>
+            <p class="card-text">Здається обраної нотатки не існує. Введи щось інше або створи нову</p>
+            <a href="{% url 'home' %}" class="btn btn-primary">На головну</a>
+        </div>
+        <div class="card-footer text-muted">
         </div>
     </div>
 {% endif %}
-<button>
-    <a href="{% url 'note_create' %}">Додати нову нотатку</a>
+<button type="button" class="btn btn-primary btn-lg" >
+    <a href="{% url 'note_create' %}" style="color: white; text-decoration: none">Додати нову нотатку</a>
 </button>
 {% endblock %}
